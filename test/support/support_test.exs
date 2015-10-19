@@ -10,7 +10,7 @@ defmodule PinElixirTest.Support do
 
   test "gets pin_url" do
     pin_url = Support.get_config(:pin_url)
-    assert pin_url == "test-api.pin.net.au"
+    assert pin_url == "test-api.pin.net.au/1"
   end
 
 end

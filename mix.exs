@@ -29,9 +29,11 @@ defmodule PinElixir.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:mix_test_watch, "~> 0.2", only: :dev},
+      {:httpotion, "~> 2.1.0"},
+      {:hypermock, "~> 0.0.2", only: :test},
       {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
-      {:httpotion, "~> 2.1.0"}
+      {:mix_test_watch, "~> 0.2", only: :dev},
+      {:poison, "~> 1.5"}
     ]
   end
 end
