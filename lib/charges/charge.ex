@@ -1,5 +1,6 @@
 defmodule PinElixir.Charge do
   require Logger
+  alias PinElixir.Pagination
 
   defstruct [:amount, :currency, :description, :email, :ip_address, :card, :success]
 
@@ -7,8 +8,8 @@ defmodule PinElixir.Charge do
   Handles the creation and retrieval of charges
   """
 
-  @pin_url PinElixir.Support.get_config(:pin_url)
-  @api_key PinElixir.Support.get_config(:api_key)
+  @pin_url Application.get_env(:pin_elixir, :pin_url)
+  @api_key Application.get_env(:pin_elixir, :api_key)
   @auth basic_auth: {@api_key, ""}
 
   @doc """
@@ -29,8 +30,8 @@ defmodule PinElixir.Charge do
   defp handle_get_all(%{status_code: 200, body: body}) do
     Logger.debug fn -> inspect(body) end
     Poison.decode!(body,
-                   as: %{"response" => [PinElixir.Charge],
-                         pagination: PinElixir.Pagination},
+                   as: %{"response" => [Charge],
+                         pagination: Pagination},
                    keys: :atoms)
     |> rename_response_field
     |> wrap_in_tuple
@@ -56,7 +57,7 @@ defmodule PinElixir.Charge do
 
     response = HTTPotion.post(charges_url, [@auth, headers: ["Content-Type": "application/json"], body: json ])
     Poison.decode!(response.body,
-                   as: %{"response" => PinElixir.Charge},
+                   as: %{"response" => Charge},
                    keys: :atoms)
     |> Map.fetch! :response
   end
