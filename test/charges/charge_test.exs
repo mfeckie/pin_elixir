@@ -21,8 +21,7 @@ defmodule PinElixirTest.Charge do
     currency: "AUD",
     description: "Dragon Eggs",
     email: "hagrid@hogwarts.wiz",
-    ip_address: "127.0.0.1",
-    card: @card_map
+    ip_address: "127.0.0.1"
   }
 
   defp charge_request do
@@ -77,7 +76,7 @@ defmodule PinElixirTest.Charge do
 
       stub_request charge_request, response
 
-      {:ok, charge_response} = Charge.create_with_card(@charge_map)
+      {:ok, charge_response} = Charge.create(%{charge: @charge_map, card: @card_map})
 
       assert charge_response.charge.success == true
       assert String.length(charge_response.charge.card[:token]) > 0
@@ -89,7 +88,7 @@ defmodule PinElixirTest.Charge do
       response = %Response{body: PinElixirTest.Fixtures.Charge.missing_parameters, status: 422}
       stub_request charge_request, response
 
-      {:error, error_response } = Charge.create_with_card(@charge_map)
+      {:error, error_response } = Charge.create(%{charge: @charge_map, card: @card_map})
 
       assert error_response.error == "invalid_resource"
       assert length(error_response.messages) == 1
@@ -103,7 +102,7 @@ defmodule PinElixirTest.Charge do
 
       stub_request charge_request, response
 
-      {:error, charge_response} = Charge.create_with_card(@charge_map)
+      {:error, charge_response} = Charge.create(%{charge: @charge_map, card: @card_map})
 
       assert charge_response.error == "card_declined"
       assert charge_response.error_description == "The card was declined"
@@ -117,11 +116,34 @@ defmodule PinElixirTest.Charge do
 
       stub_request charge_request, response
 
-      {:error, charge_response} = Charge.create_with_card(@charge_map)
+      {:error, charge_response} = Charge.create(%{charge: @charge_map, card: @card_map})
 
       assert charge_response.error == "insufficient_funds"
       assert charge_response.error_description == "There are not enough funds available to process the requested amount"
       assert charge_response.charge_token == "ch_lfUYEBK14zotCTykezJkfg"
     end
   end
+
+  test "create with customer token" do
+    HyperMock.intercept do
+      response = %Response{body: PinElixirTest.Fixtures.Charge.create_with_card_response}
+
+      request =    %HyperMock.Request{
+        body: PinElixirTest.Fixtures.Charge.create_with_customer_token_request,
+        headers: ["Content-Type": "application/json"],
+        method: :post,
+        uri: "https://test-api.pin.net.au/1/charges"
+      }
+
+      stub_request request, response
+
+      {:ok, charge_response} = Charge.create(%{charge: @charge_map, customer_token: "abcd123"})
+
+      assert charge_response.charge.success == true
+      #TODO Get proper response from customer token request when I have internet again
+
+    end
+  end
+
+
 end

@@ -77,12 +77,19 @@ defmodule PinElixir.Charge do
 
 
   """
-  def create_with_card(charge_map) do
-    json = Poison.encode!(charge_map)
+  def create(%{charge: charge, card: card}) do
+    json = Poison.encode!(Map.put(charge, :card, card))
 
     HTTPotion.post(charges_url, [@auth, headers: ["Content-Type": "application/json"], body: json ])
     |> handle_charge_create
 
+  end
+
+  def create(%{charge: charge, customer_token: customer_token}) do
+    json = Poison.encode!(Map.put(charge, :customer_token, customer_token))
+
+    HTTPotion.post(charges_url, [@auth, headers: ["Content-Type": "application/json"], body: json ])
+    |> handle_charge_create
   end
 
   defp handle_charge_create(%{status_code: 200, body: body}) do
@@ -109,5 +116,8 @@ defmodule PinElixir.Charge do
   defp charges_url do
     "https://#{@pin_url}/charges"
   end
+
+
+
 
 end

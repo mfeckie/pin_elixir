@@ -18,39 +18,43 @@ defmodule PinElixirTest.Fixtures do
     end
 
     def card_declined do
-      """
-      {
-        "error": "card_declined",
-        "error_description": "The card was declined",
-        "charge_token": "ch_lfUYEBK14zotCTykezJkfg"
-      }
-      """
+    """
+    {
+    "error": "card_declined",
+    "error_description": "The card was declined",
+    "charge_token": "ch_lfUYEBK14zotCTykezJkfg"
+    }
+    """
     end
 
     def insufficient_funds do
-      """
-      {
-        "error": "insufficient_funds",
-        "error_description": "There are not enough funds available to process the requested amount",
-        "charge_token": "ch_lfUYEBK14zotCTykezJkfg"
-      }
-      """
+    """
+    {
+    "error": "insufficient_funds",
+    "error_description": "There are not enough funds available to process the requested amount",
+    "charge_token": "ch_lfUYEBK14zotCTykezJkfg"
+    }
+    """
     end
 
     def missing_parameters do
-      """
-      {
-        "error": "invalid_resource",
-        "error_description": "One or more parameters were missing or invalid.",
-        "messages": [
-          {
-          "code": "description_invalid",
-          "message": "Description can't be blank",
-          "param": "description"
-          }
-        ]
-      }
-      """
+    """
+    {
+    "error": "invalid_resource",
+    "error_description": "One or more parameters were missing or invalid.",
+    "messages": [
+    {
+    "code": "description_invalid",
+    "message": "Description can't be blank",
+    "param": "description"
+    }
+    ]
+    }
+    """
+    end
+
+    def create_with_customer_token_request do
+      "{\"ip_address\":\"127.0.0.1\",\"email\":\"hagrid@hogwarts.wiz\",\"description\":\"Dragon Eggs\",\"customer_token\":\"abcd123\",\"currency\":\"AUD\",\"amount\":500}"
     end
 
   end
