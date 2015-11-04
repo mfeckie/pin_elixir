@@ -14,7 +14,44 @@ defmodule PinElixirTest.Fixtures do
     end
 
     def create_with_card_request do
-      "{\"ip_address\":\"127.0.0.1\",\"email\":\"hagrid@hogwarts.wiz\",\"description\":\"Dragon Eggs\",\"currency\":\"AUD\",\"card\":{\"number\":4200000000000000,\"name\":\"Rubius Hagrid\",\"expiry_year\":2016,\"expiry_month\":\"10\",\"cvc\":456,\"address_state\":\"WA\",\"address_postcode\":6000,\"address_line1\":\"The Game Keepers Cottage\",\"address_country\":\"Straya\",\"address_city\":\"Hogwarts\"},\"amount\":500}"
+      "{\"ip_address\":\"127.0.0.1\",\"email\":\"hagrid@hogwarts.wiz\",\"description\":\"Dragon Eggs\",\"currency\":\"AUD\",\"card\":{\"number\":4200000000000000,\"name\":\"Rubius Hagrid\",\"expiry_year\":2016,\"expiry_month\":\"10\",\"cvc\":456,\"address_state\":\"WA\",\"address_postcode\":\"H0G\",\"address_line1\":\"The Game Keepers Cottage\",\"address_country\":\"Straya\",\"address_city\":\"Hogwarts\"},\"amount\":500}"
     end
+
+    def card_declined do
+      """
+      {
+        "error": "card_declined",
+        "error_description": "The card was declined",
+        "charge_token": "ch_lfUYEBK14zotCTykezJkfg"
+      }
+      """
+    end
+
+    def insufficient_funds do
+      """
+      {
+        "error": "insufficient_funds",
+        "error_description": "There are not enough funds available to process the requested amount",
+        "charge_token": "ch_lfUYEBK14zotCTykezJkfg"
+      }
+      """
+    end
+
+    def missing_parameters do
+      """
+      {
+        "error": "invalid_resource",
+        "error_description": "One or more parameters were missing or invalid.",
+        "messages": [
+          {
+          "code": "description_invalid",
+          "message": "Description can't be blank",
+          "param": "description"
+          }
+        ]
+      }
+      """
+    end
+
   end
 end

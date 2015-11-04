@@ -3,7 +3,7 @@ defmodule PinElixirTest.Charge do
   use HyperMock
   alias PinElixir.Charge
 
-  @card_map  %{
+  @card_map %{
     number: 4200000000000000,
     expiry_month: "10",
     expiry_year: 2016,
@@ -11,7 +11,7 @@ defmodule PinElixirTest.Charge do
     name: "Rubius Hagrid",
     address_line1: "The Game Keepers Cottage",
     address_city: "Hogwarts",
-    address_postcode: 6000,
+    address_postcode: "H0G",
     address_state: "WA",
     address_country: "Straya"
   }
@@ -24,6 +24,15 @@ defmodule PinElixirTest.Charge do
     ip_address: "127.0.0.1",
     card: @card_map
   }
+
+  defp charge_request do
+    %HyperMock.Request{
+      body: PinElixirTest.Fixtures.Charge.create_with_card_request,
+      headers: ["Content-Type": "application/json"],
+      method: :post,
+      uri: "https://test-api.pin.net.au/1/charges"
+    }
+  end
 
   test "Returns all current charges" do
     HyperMock.intercept do
@@ -64,20 +73,55 @@ defmodule PinElixirTest.Charge do
 
   test "Create with valid card" do
     HyperMock.intercept do
-      request = %Request{
-        body: PinElixirTest.Fixtures.Charge.create_with_card_request,
-        headers: ["Content-Type": "application/json"],
-        method: :post,
-        uri: "https://test-api.pin.net.au/1/charges"
-      }
       response = %Response{body: PinElixirTest.Fixtures.Charge.create_with_card_response}
 
-      stub_request request, response
+      stub_request charge_request, response
 
-      charge_response = Charge.create(@charge_map)
+      {:ok, charge_response} = Charge.create_with_card(@charge_map)
 
-      assert charge_response.success == true
-      assert String.length(charge_response.card[:token]) > 0
+      assert charge_response.charge.success == true
+      assert String.length(charge_response.charge.card[:token]) > 0
+    end
+  end
+
+  test "Missing parameters" do
+    HyperMock.intercept do
+      response = %Response{body: PinElixirTest.Fixtures.Charge.missing_parameters, status: 422}
+      stub_request charge_request, response
+
+      {:error, error_response } = Charge.create_with_card(@charge_map)
+
+      assert error_response.error == "invalid_resource"
+      assert length(error_response.messages) == 1
+    end
+  end
+
+
+  test "Card declined" do
+    HyperMock.intercept do
+      response = %Response{status: 400, body: PinElixirTest.Fixtures.Charge.card_declined}
+
+      stub_request charge_request, response
+
+      {:error, charge_response} = Charge.create_with_card(@charge_map)
+
+      assert charge_response.error == "card_declined"
+      assert charge_response.error_description == "The card was declined"
+      assert charge_response.charge_token == "ch_lfUYEBK14zotCTykezJkfg"
+    end
+  end
+
+  test "Insufficient funds" do
+    HyperMock.intercept do
+      response = %Response{status: 400, body: PinElixirTest.Fixtures.Charge.insufficient_funds}
+
+      stub_request charge_request, response
+
+      {:error, charge_response} = Charge.create_with_card(@charge_map)
+
+      assert charge_response.error == "insufficient_funds"
+      assert charge_response.error_description == "There are not enough funds available to process the requested amount"
+      assert charge_response.charge_token == "ch_lfUYEBK14zotCTykezJkfg"
     end
   end
 end
