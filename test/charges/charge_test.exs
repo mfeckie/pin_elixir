@@ -163,6 +163,20 @@ defmodule PinElixirTest.Charge do
     end
   end
 
+  test "capture previously authorized charge" do
+    HyperMock.intercept do
+      response = %Response{body: PinElixirTest.Fixtures.Charge.create_with_card_response}
+      request =    %HyperMock.Request{
+        method: :put,
+        uri: "https://test-api.pin.net.au/1/charges/abcd123/capture"
+      }
 
+      stub_request request, response
+
+      {:ok, capture_response} = Charge.capture("abcd123")
+
+      assert capture_response.charge.success == true
+    end
+  end
 
 end

@@ -131,6 +131,11 @@ defmodule PinElixir.Charge do
     %{charge: map.response}
   end
 
+  def capture(token) do
+    HTTPotion.put(charges_url <> "/#{token}/capture", [@auth])
+    |> handle_charge_response
+  end
+
   defp charges_url do
     "https://#{@pin_url}/charges"
   end
