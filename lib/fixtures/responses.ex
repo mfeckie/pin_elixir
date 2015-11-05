@@ -1,7 +1,58 @@
 defmodule PinElixirTest.Fixtures do
   defmodule Charge do
     def all do
-      '{"response":[{"token":"ch_lfUYEBK14zotCTykezJkfg","success":true,"amount":400,"total_fees":10,"currency":"AUD","description":"test charge","email":"roland@pin.net.au","ip_address":"203.192.1.172","created_at":"2013-06-27T00:39:07Z","status_message":"Success","error_message":null,"card":{"token":"card_nytGw7koRg23EEp9NTmz9w","display_number":"XXXX-XXXX-XXXX-0000","scheme":"master","address_line1":"42 Sevenoaks St","address_line2":null,"address_city":"Lathlain","address_postcode":"6454","address_state":"WA","address_country":"Australia"},"transfer":null},{"token":"ch_shldvbE5eqBQuyY9Fryhzw","success":true,"amount":400,"currency":"AUD","description":"test charge","email":"roland@pin.net.au","ip_address":"203.192.1.172","created_at":"2013-06-27T00:38:41Z","status_message":"Success","error_message":null,"card":{"token":"card_nytGw7koRg23EEp9NTmz9w","display_number":"XXXX-XXXX-XXXX-0000","scheme":"master","address_line1":"42 Sevenoaks St","address_line2":null,"address_city":"Lathlain","address_postcode":"6454","address_state":"WA","address_country":"Australia"},"transfer":null}],"count":2,"pagination":{"current":1,"previous":null,"next":1,"per_page":25,"pages":1,"count":2}}'
+      """
+      {
+        "response": [
+          {
+            "token": "ch_lfUYEBK14zotCTykezJkfg",
+            "success": true,
+            "amount": 400,
+            "currency": "USD",
+            "description": "test charge",
+            "email": "roland@pin.net.au",
+            "ip_address": "203.192.1.172",
+            "created_at": "2012-06-20T03:10:49Z",
+            "status_message": "Success",
+            "error_message": null,
+            "card": {
+              "token": "card_pIQJKMs93GsCc9vLSLevbw",
+              "scheme": "master",
+              "display_number": "XXXX-XXXX-XXXX-0000",
+              "expiry_month": 6,
+              "expiry_year": 2020,
+              "name": "Roland Robot",
+              "address_line1": "42 Sevenoaks St",
+              "address_line2": null,
+              "address_city": "Lathlain",
+              "address_postcode": "6454",
+              "address_state": "WA",
+              "address_country": "Australia",
+              "primary": null
+            },
+            "captured": true,
+            "authorisation_expired": false,
+            "transfer": [
+              {
+                "state": "paid",
+                "paid_at": "2012-06-27T03:10:49Z",
+                "token": "tfer_j_u-Ef7aO0Y4CuLnGh92rg"
+              }
+            ],
+            "amount_refunded": 0,
+            "total_fees": 42,
+            "merchant_entitlement": 358,
+            "refund_pending": false,
+            "settlement_currency": "AUD"
+          }
+        ],
+        "pagination": {
+          "current": 1,
+          "per_page": 25,
+          "count": 1
+        }
+      }
+      """
     end
 
     def get_all_fail do

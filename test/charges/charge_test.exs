@@ -46,7 +46,7 @@ defmodule PinElixirTest.Charge do
 
       {:ok, charge_map} = Charge.get_all
 
-      assert charge_map.count == 2
+      assert charge_map.pagination.count == 1
       assert hd(charge_map.charges).success == true
     end
   end
