@@ -80,27 +80,26 @@ defmodule PinElixir.Charge do
   def create(%{charge: charge, card: card}) do
     Poison.encode!(Map.put(charge, :card, card))
     |> post_to_api
-    |> handle_charge_create
+    |> handle_charge_response
   end
 
   def create(%{charge: charge, customer_token: customer_token}) do
     Poison.encode!(Map.put(charge, :customer_token, customer_token))
     |> post_to_api
-    |> handle_charge_create
+    |> handle_charge_response
   end
 
   def create(%{charge: charge, card_token: card_token}) do
     Poison.encode!(Map.put(charge, :card_token, card_token))
     |> post_to_api
-    |> handle_charge_create
+    |> handle_charge_response
   end
 
   defp post_to_api(json) do
     HTTPotion.post(charges_url, [@auth, headers: ["Content-Type": "application/json"], body: json])
-
   end
 
-  defp handle_charge_create(%{status_code: 200, body: body}) do
+  defp handle_charge_response(%{status_code: 200, body: body}) do
     Poison.decode!(body,
                    as: %{"response" => Charge},
                    keys: :atoms)
@@ -108,12 +107,12 @@ defmodule PinElixir.Charge do
     |> wrap_in_success_tuple
   end
 
-  defp handle_charge_create(%{status_code: 422, body: body}) do
+  defp handle_charge_response(%{status_code: 422, body: body}) do
     #TODO Improve response from this function, maybe parse errors?
     {:error, Poison.decode!(body, keys: :atoms)}
   end
 
-  defp handle_charge_create(%{status_code: 400, body: body}) do
+  defp handle_charge_response(%{status_code: 400, body: body}) do
     {:error, Poison.decode!(body, keys: :atoms)}
   end
 
