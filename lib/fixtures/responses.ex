@@ -57,5 +57,9 @@ defmodule PinElixirTest.Fixtures do
       "{\"ip_address\":\"127.0.0.1\",\"email\":\"hagrid@hogwarts.wiz\",\"description\":\"Dragon Eggs\",\"customer_token\":\"abcd123\",\"currency\":\"AUD\",\"amount\":500}"
     end
 
+    def create_with_card_token_request do
+      "{\"ip_address\":\"127.0.0.1\",\"email\":\"hagrid@hogwarts.wiz\",\"description\":\"Dragon Eggs\",\"currency\":\"AUD\",\"card_token\":\"card_123\",\"amount\":500}"
+    end
+
   end
 end

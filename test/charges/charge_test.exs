@@ -145,5 +145,24 @@ defmodule PinElixirTest.Charge do
     end
   end
 
+  test "create with card token" do
+    HyperMock.intercept do
+      response = %Response{body: PinElixirTest.Fixtures.Charge.create_with_card_response}
+      request =    %HyperMock.Request{
+        body: PinElixirTest.Fixtures.Charge.create_with_card_token_request,
+        headers: ["Content-Type": "application/json"],
+        method: :post,
+        uri: "https://test-api.pin.net.au/1/charges"
+      }
+
+      stub_request request, response
+
+      {:ok, card_token_response} = Charge.create(%{charge: @charge_map, card_token: "card_123"})
+
+      assert card_token_response.charge.success == true
+    end
+  end
+
+
 
 end
