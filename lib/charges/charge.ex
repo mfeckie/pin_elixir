@@ -54,14 +54,16 @@ defmodule PinElixir.Charge do
   end
   @doc """
   Takes a map representing a customer charge
-  in the form
+
+  Can be used with a card, customer_token or card_token key
+  ```
   %{
     amount: 500,
-    currency: "AUD",
+    currency: "AUD", // Optional (default: "AUD")
     description: "Dragon Eggs",
     email: "hagrid@hogwarts.wiz",
     ip_address: "127.0.0.1",
-     card: %{
+      card: %{  // Optional
        number: 4200000000000000,
        expiry_month: "10",
        expiry_year: 2016,
@@ -72,9 +74,18 @@ defmodule PinElixir.Charge do
        address_postcode: "H0G",
        address_state: "WA",
        address_country: "England"
-     }
+       }
+    card_token: "abcd123" // Optional
+    customer_token: "cust_123" // Optional
+    capture: false // Optional (default: true)
   }
+  ```
 
+  returns a tuple representing the outcome of the charge
+
+  `{:ok, charge_response}`
+  OR
+  `{:error, error_message}`
 
   """
   def create(%{charge: charge, card: card}) do
