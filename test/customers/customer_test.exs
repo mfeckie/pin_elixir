@@ -22,6 +22,7 @@ defmodule PinElixirTest.Customer do
       request = %Request{
         body: PinElixirTest.Fixtures.Customer.create_request,
         method: :post,
+        headers: ["Content-Type": "application/json"],
         uri: "https://test-api.pin.net.au/1/customers"
       }
       response = %Response{
@@ -42,6 +43,7 @@ defmodule PinElixirTest.Customer do
       request = %Request{
         body: PinElixirTest.Fixtures.Customer.create_error_request,
         method: :post,
+        headers: ["Content-Type": "application/json"],
         uri: "https://test-api.pin.net.au/1/customers"
       }
       response = %Response{
