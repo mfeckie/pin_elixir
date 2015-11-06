@@ -71,9 +71,9 @@ defmodule PinElixirTest.Fixtures do
     def card_declined do
     """
     {
-    "error": "card_declined",
-    "error_description": "The card was declined",
-    "charge_token": "ch_lfUYEBK14zotCTykezJkfg"
+      "error": "card_declined",
+      "error_description": "The card was declined",
+      "charge_token": "ch_lfUYEBK14zotCTykezJkfg"
     }
     """
     end
@@ -81,9 +81,9 @@ defmodule PinElixirTest.Fixtures do
     def insufficient_funds do
     """
     {
-    "error": "insufficient_funds",
-    "error_description": "There are not enough funds available to process the requested amount",
-    "charge_token": "ch_lfUYEBK14zotCTykezJkfg"
+      "error": "insufficient_funds",
+      "error_description": "There are not enough funds available to process the requested amount",
+      "charge_token": "ch_lfUYEBK14zotCTykezJkfg"
     }
     """
     end
@@ -159,6 +159,5 @@ defmodule PinElixirTest.Fixtures do
       }
       """
     end
-
   end
 end
