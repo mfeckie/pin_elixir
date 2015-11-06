@@ -6,7 +6,7 @@ defmodule PinElixir.Charge do
   defstruct [:amount, :currency, :description, :email, :ip_address, :card, :success]
 
   @moduledoc """
-  Handles the creation and retrieval of charges
+    Handles the creation and retrieval of charges
   """
 
   @pin_url Application.get_env(:pin_elixir, :pin_url)
@@ -14,14 +14,14 @@ defmodule PinElixir.Charge do
   @auth basic_auth: {@api_key, ""}
 
   @doc """
-  Retreives all charges
+    Retreives all charges
 
-  Returns a tuple
-  ```
-  {:ok, charge_map}
-  or
-  {:error, error_map}
-  ```
+    Returns a tuple
+    ```
+    {:ok, charge_map}
+    or
+    {:error, error_map}
+    ```
   """
   def get_all do
     HTTPotion.get(charges_url, [@auth])
@@ -44,50 +44,79 @@ defmodule PinElixir.Charge do
   end
 
   defp rename_response_field(response) do
-    %{count: response.count,
-      charges: response.response,
+    %{charges: response.response,
       pagination: response.pagination}
   end
 
   defp wrap_in_success_tuple(map) do
     {:ok, map}
   end
+
   @doc """
-  Takes a map representing a customer charge
+    Given a charge token returns a tuple
 
-  Can be used with a card, customer_token or card_token key
-  ```
-  %{
-    amount: 500,
-    currency: "AUD", // Optional (default: "AUD")
-    description: "Dragon Eggs",
-    email: "hagrid@hogwarts.wiz",
-    ip_address: "127.0.0.1",
-      card: %{  // Optional
-       number: 4200000000000000,
-       expiry_month: "10",
-       expiry_year: 2016,
-       cvc: 456,
-       name: "Rubius Hagrid",
-       address_line1: "The Game Keepers Cottage",
-       address_city: "Hogwarts",
-       address_postcode: "H0G",
-       address_state: "WA",
-       address_country: "England"
-       }
-    card_token: "abcd123" // Optional
-    customer_token: "cust_123" // Optional
-    capture: false // Optional (default: true)
-  }
-  ```
+    ```
+    {:ok, charge_map}
+    ```
 
-  returns a tuple representing the outcome of the charge
+    OR
 
-  `{:ok, charge_response}`
-  OR
-  `{:error, error_message}`
-
+    ```
+    {:error, error_details}
+    ```
   """
+
+  def get(token) do
+    HTTPotion.get(charges_url <> "/#{token}")
+    |> handle_get
+  end
+
+  defp handle_get(%{status_code: 200, body: body}) do
+    decoded = Poison.decode!(body, keys: :atoms)
+    {:ok, %{charge: decoded.response}}
+  end
+
+  defp handle_get(%{status_code: 404, body: body}) do
+    decoded = Poison.decode!(body, keys: :atoms)
+    {:error, decoded}
+  end
+
+  @doc """
+    Takes a map representing a customer charge
+
+    Can be used with a card, customer_token or card_token key
+    ```
+    %{
+      amount: 500,
+      currency: "AUD", // Optional (default: "AUD")
+      description: "Dragon Eggs",
+      email: "hagrid@hogwarts.wiz",
+      ip_address: "127.0.0.1",
+        card: %{  // Optional
+         number: 4200000000000000,
+         expiry_month: "10",
+         expiry_year: 2016,
+         cvc: 456,
+         name: "Rubius Hagrid",
+         address_line1: "The Game Keepers Cottage",
+         address_city: "Hogwarts",
+         address_postcode: "H0G",
+         address_state: "WA",
+         address_country: "England"
+         }
+      card_token: "abcd123" // Optional
+      customer_token: "cust_123" // Optional
+      capture: false // Optional (default: true)
+    }
+    ```
+
+    returns a tuple representing the outcome of the charge
+
+    `{:ok, charge_response}`
+    OR
+    `{:error, error_message}`
+  """
+
   def create(%{charge: charge, card: card}) do
     Poison.encode!(Map.put(charge, :card, card))
     |> post_to_api

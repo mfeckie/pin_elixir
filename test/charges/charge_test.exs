@@ -179,4 +179,36 @@ defmodule PinElixirTest.Charge do
     end
   end
 
+  test "get a charge" do
+    HyperMock.intercept do
+      response = %Response{body: PinElixirTest.Fixtures.Charge.get}
+      request = %HyperMock.Request{
+        method: :get,
+        uri: "https://test-api.pin.net.au/1/charges/abcd123"
+      }
+
+      stub_request request, response
+
+      {:ok, get_charge_response} = Charge.get("abcd123")
+
+      assert get_charge_response.charge.amount == 400
+    end
+  end
+
+  test "get a charge error" do
+    HyperMock.intercept do
+      response = %Response{body: '{"error": "resource_not_found"}', status: 404}
+      request = %HyperMock.Request{
+        method: :get,
+        uri: "https://test-api.pin.net.au/1/charges/abcd123"
+      }
+
+      stub_request request, response
+
+      {:error, get_charge_response} = Charge.get("abcd123")
+
+      assert get_charge_response.error == "resource_not_found"
+    end
+  end
+
 end
