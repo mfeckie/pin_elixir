@@ -21,6 +21,20 @@ defmodule PinElixir.Customer do
     {:error, decoded}
   end
 
+  def delete(token) do
+    HTTPotion.delete(customer_url <> "/#{token}")
+    |> handle_delete
+  end
+
+  defp handle_delete(%{status_code: 200}) do
+    {:ok, %{}}
+  end
+
+  defp handle_delete(%{status_code: 422, body: body}) do
+    message = Poison.decode!(body, keys: :atoms)
+    {:error, message}
+  end
+
   defp customer_url do
     "https://#{@pin_url}/customers"
   end

@@ -59,4 +59,40 @@ defmodule PinElixirTest.Customer do
     end
   end
 
+  test "delete a customer" do
+    HyperMock.intercept do
+      request = %Request{
+        method: :delete,
+        uri: "https://test-api.pin.net.au/1/customers/abc123"
+      }
+      response = %Response{
+        body: '{"response":{}}'
+      }
+
+      stub_request request, response
+
+      {:ok, result} = Customer.delete("abc123")
+
+      assert result == %{}
+    end
+  end
+
+  test "delete a customer failure" do
+    HyperMock.intercept do
+      request = %Request{
+        method: :delete,
+        uri: "https://test-api.pin.net.au/1/customers/abc123"
+      }
+      response = %Response{
+        status: 422,
+        body: '{"error":"resource_not_found","error_description":"No resource was found at this URL."}'
+      }
+
+      stub_request request, response
+
+      {:error, error_message} = Customer.delete("abc123")
+
+      assert error_message.error == "resource_not_found"
+    end
+  end
 end
