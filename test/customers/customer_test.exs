@@ -20,7 +20,7 @@ defmodule PinElixirTest.Customer do
   test "Create a customer with email and card" do
     HyperMock.intercept do
       request = %Request{
-        body: PinElixirTest.Fixtures.Customer.create_request,
+        body: PinElixirTest.Fixtures.Customer.create_with_email_request,
         method: :post,
         headers: ["Content-Type": "application/json"],
         uri: "https://test-api.pin.net.au/1/customers"
@@ -31,7 +31,28 @@ defmodule PinElixirTest.Customer do
 
       stub_request request, response
 
-      {:ok, customer_response} = Customer.create("foo@example.com", @card_map)
+      {:ok, customer_response} = Customer.create("foo@example.com", %{card: @card_map })
+
+      assert customer_response.customer.email == "foo@example.com"
+
+    end
+  end
+
+  test "Create a customer with email and card_token" do
+    HyperMock.intercept do
+      request = %Request{
+        body: PinElixirTest.Fixtures.Customer.create_with_card_token_request,
+        method: :post,
+        headers: ["Content-Type": "application/json"],
+        uri: "https://test-api.pin.net.au/1/customers"
+      }
+      response = %Response{
+        body: PinElixirTest.Fixtures.Customer.create
+      }
+
+      stub_request request, response
+
+      {:ok, customer_response} = Customer.create("foo@example.com", %{card_token: "abc_a123" })
 
       assert customer_response.customer.email == "foo@example.com"
 
@@ -53,7 +74,7 @@ defmodule PinElixirTest.Customer do
 
       stub_request request, response
 
-      {:error, customer_error_response} = Customer.create("", @card_map)
+      {:error, customer_error_response} = Customer.create("", %{card: @card_map})
 
       assert customer_error_response.error == "invalid_resource"
     end
