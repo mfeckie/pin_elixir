@@ -57,6 +57,30 @@ defmodule PinElixirTest.Fixtures.Customer do
       '{"error":"some error"}'
   end
 
-
+  def get_customer do
+    """
+    {
+    "response": {
+      "token": "cus_XZg1ULpWaROQCOT5PdwLkQ",
+      "email": "roland@pin.net.au",
+      "created_at": "2012-06-22T06:27:33Z",
+      "card": {
+        "token": "card_nytGw7koRg23EEp9NTmz9w",
+        "display_number": "XXXX-XXXX-XXXX-0000",
+        "expiry_month": 6,
+        "expiry_year": 2020,
+        "name": "Roland Robot",
+        "address_line1": "42 Sevenoaks St",
+        "address_line2": null,
+        "address_city": "Lathlain",
+        "address_postcode": "6454",
+        "address_state": "WA",
+        "address_country": "Australia",
+        "scheme": "master"
+        }
+      }
+    }
+    """
+  end
 
 end

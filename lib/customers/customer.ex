@@ -24,8 +24,7 @@ defmodule PinElixir.Customer do
   end
 
   defp handle_create_customer_response(%{status_code: 422, body: body}) do
-    decode(body)
-    |> to_error_tuple
+    to_error_tuple body
   end
 
   def delete(token) do
@@ -38,13 +37,26 @@ defmodule PinElixir.Customer do
   end
 
   defp handle_delete(%{status_code: 422, body: body}) do
-    decode(body)
-    |> to_error_tuple
+    to_error_tuple body
   end
 
   def get do
     HTTPotion.get(customer_url, [@auth])
     |> handle_get_all
+  end
+
+  def get(id) do
+    HTTPotion.get(customer_url <> "/#{id}")
+    |> handle_get
+  end
+
+  def handle_get(%{status_code: 200, body: body}) do
+    decoded = decode(body)
+    {:ok, decoded.response}
+  end
+
+  def handle_get(%{status_code: ___, body: body}) do
+    to_error_tuple body
   end
 
   defp handle_get_all(%{status_code: 200, body: body}) do
@@ -54,8 +66,7 @@ defmodule PinElixir.Customer do
   end
 
   defp handle_get_all(%{status_code: ___, body: body}) do
-    decode(body)
-    |> to_error_tuple
+    to_error_tuple body
   end
 
   defp customer_url do
@@ -67,7 +78,7 @@ defmodule PinElixir.Customer do
   end
 
   defp to_error_tuple(body) do
-    {:error, body}
+    {:error, decode(body)}
   end
 
   defp post(json) do

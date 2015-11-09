@@ -155,4 +155,23 @@ defmodule PinElixirTest.Customer do
     end
   end
 
+  test "Getting a customer" do
+    HyperMock.intercept do
+      request = %Request{
+        method: :get,
+        uri: "https://test-api.pin.net.au/1/customers/abc_123"
+      }
+      response = %Response{
+        status: 200,
+        body: PinElixirTest.Fixtures.Customer.get_customer
+      }
+
+      stub_request request, response
+
+      {:ok, customer} = Customer.get("abc_123")
+
+      assert customer.email == "roland@pin.net.au"
+    end
+  end
+
 end
