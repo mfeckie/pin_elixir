@@ -116,4 +116,43 @@ defmodule PinElixirTest.Customer do
       assert error_message.error == "resource_not_found"
     end
   end
+
+  test "Getting all customers" do
+    HyperMock.intercept do
+      request = %Request{
+        method: :get,
+        uri: "https://test-api.pin.net.au/1/customers"
+      }
+      response = %Response{
+        status: 200,
+        body: PinElixirTest.Fixtures.Customer.get_all_customers
+      }
+
+      stub_request request, response
+      {:ok, customers_response} = Customer.get
+
+      assert length(customers_response.customers) == 1
+    end
+  end
+
+  test "Get all customers failure" do
+    HyperMock.intercept do
+      request = %Request{
+        method: :get,
+        uri: "https://test-api.pin.net.au/1/customers"
+      }
+
+      response = %Response{
+        status: 422,
+        body: PinElixirTest.Fixtures.Customer.get_all_customers_error
+      }
+
+      stub_request request, response
+
+      {:error, error_response} = Customer.get
+
+      assert error_response.error == "some error"
+    end
+  end
+
 end
