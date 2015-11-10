@@ -11,7 +11,7 @@ defmodule PinElixir.Charge do
 
   @pin_url Application.get_env(:pin_elixir, :pin_url)
   @api_key Application.get_env(:pin_elixir, :api_key)
-  @auth basic_auth: {@api_key, ""}
+  @auth {@api_key, ""}
 
   @doc """
     Retreives all charges
@@ -24,7 +24,7 @@ defmodule PinElixir.Charge do
     ```
   """
   def get_all do
-    HTTPotion.get(charges_url, [@auth])
+    HTTPotion.get(charges_url, [basic_auth: @auth])
     |> handle_get_all
   end
 
@@ -67,7 +67,7 @@ defmodule PinElixir.Charge do
   """
 
   def get(token) do
-    HTTPotion.get(charges_url <> "/#{token}")
+    HTTPotion.get(charges_url <> "/#{token}", [basic_auth: @auth])
     |> handle_get
   end
 
@@ -136,7 +136,7 @@ defmodule PinElixir.Charge do
   end
 
   defp post_to_api(json) do
-    HTTPotion.post(charges_url, [@auth, headers: ["Content-Type": "application/json"], body: json])
+    HTTPotion.post(charges_url, [basic_auth: @auth, headers: ["Content-Type": "application/json"], body: json])
   end
 
   defp handle_charge_response(%{status_code: 200, body: body}) do
@@ -161,7 +161,7 @@ defmodule PinElixir.Charge do
   end
 
   def capture(token) do
-    HTTPotion.put(charges_url <> "/#{token}/capture", [@auth])
+    HTTPotion.put(charges_url <> "/#{token}/capture", [basic_auth: @auth])
     |> handle_charge_response
   end
 
