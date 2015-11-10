@@ -2,8 +2,6 @@ defmodule PinElixir.Charge do
   import PinElixir.Utils.RequestOptions
   import PinElixir.Utils.Response
 
-  defstruct [:amount, :currency, :description, :email, :ip_address, :card, :success]
-
   @moduledoc """
     Handles the creation and retrieval of charges
   """

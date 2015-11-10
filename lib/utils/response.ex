@@ -9,5 +9,4 @@ defmodule PinElixir.Utils.Response do
     {:error, decode(body)}
   end
 
-
 end
