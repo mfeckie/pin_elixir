@@ -1,8 +1,7 @@
 defmodule PinElixir.Customer do
+  import PinElixir.Utils.RequestOptions
 
   @pin_url Application.get_env :pin_elixir, :pin_url
-  @api_key Application.get_env(:pin_elixir, :api_key)
-  @auth {@api_key, ""}
 
   def create(email, %{card: card}) do
     json = Poison.encode!(%{email: email, card: card})
@@ -28,7 +27,7 @@ defmodule PinElixir.Customer do
   end
 
   def delete(token) do
-    HTTPotion.delete(customer_url <> "/#{token}", [basic_auth: @auth])
+    HTTPotion.delete(customer_url <> "/#{token}", with_auth)
     |> handle_delete
   end
 
@@ -41,12 +40,12 @@ defmodule PinElixir.Customer do
   end
 
   def get do
-    HTTPotion.get(customer_url, [basic_auth: @auth])
+    HTTPotion.get(customer_url, with_auth)
     |> handle_get_all
   end
 
   def get(id) do
-    HTTPotion.get(customer_url <> "/#{id}", [basic_auth: @auth])
+    HTTPotion.get(customer_url <> "/#{id}", with_auth)
     |> handle_get
   end
 
@@ -82,7 +81,7 @@ defmodule PinElixir.Customer do
   end
 
   defp post(json) do
-    HTTPotion.post(customer_url, [basic_auth: @auth, headers: ["Content-Type": "application/json"], body: json])
+    HTTPotion.post(customer_url, with_auth([headers: ["Content-Type": "application/json"], body: json]))
   end
 
 
