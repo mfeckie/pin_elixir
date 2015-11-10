@@ -1,19 +1,18 @@
 defmodule PinElixir.Customer do
   import PinElixir.Utils.RequestOptions
+  import PinElixir.Utils.Response
 
   @pin_url Application.get_env :pin_elixir, :pin_url
 
   def create(email, %{card: card}) do
-    json = Poison.encode!(%{email: email, card: card})
-
-    post(json)
+    Poison.encode!(%{email: email, card: card})
+    |> post_to_api
     |> handle_create_customer_response
   end
 
   def create(email, %{card_token: card_token}) do
-    json = Poison.encode!(%{email: email, card_token: card_token})
-
-    post(json)
+    Poison.encode!(%{email: email, card_token: card_token})
+    |> post_to_api
     |> handle_create_customer_response
   end
 
@@ -23,7 +22,7 @@ defmodule PinElixir.Customer do
   end
 
   defp handle_create_customer_response(%{status_code: 422, body: body}) do
-    to_error_tuple body
+    body |> to_error_tuple
   end
 
   def delete(token) do
@@ -36,7 +35,7 @@ defmodule PinElixir.Customer do
   end
 
   defp handle_delete(%{status_code: 422, body: body}) do
-    to_error_tuple body
+    body |> to_error_tuple
   end
 
   def get do
@@ -55,7 +54,7 @@ defmodule PinElixir.Customer do
   end
 
   def handle_get(%{status_code: ___, body: body}) do
-    to_error_tuple body
+    body |> to_error_tuple
   end
 
   defp handle_get_all(%{status_code: 200, body: body}) do
@@ -65,22 +64,14 @@ defmodule PinElixir.Customer do
   end
 
   defp handle_get_all(%{status_code: ___, body: body}) do
-    to_error_tuple body
+    body |> to_error_tuple
   end
 
   defp customer_url do
     "https://#{@pin_url}/customers"
   end
 
-  defp decode(body) do
-    Poison.decode!(body, keys: :atoms)
-  end
-
-  defp to_error_tuple(body) do
-    {:error, decode(body)}
-  end
-
-  defp post(json) do
+  defp post_to_api(json) do
     HTTPotion.post(customer_url, with_auth([headers: ["Content-Type": "application/json"], body: json]))
   end
 

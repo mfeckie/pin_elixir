@@ -65,7 +65,7 @@ defmodule PinElixirTest.Charge do
       {:error, body} = Charge.get_all
 
       #TODO Improve the canned response when I have internat access again
-      assert body["error"] == "invalid_resource"
+      assert body.error == "invalid_resource"
     end
 
   end

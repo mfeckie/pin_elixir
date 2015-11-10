@@ -1,10 +1,6 @@
 defmodule PinElixir.Charge do
-  require Logger
   import PinElixir.Utils.RequestOptions
-
-  alias PinElixir.Pagination
-
-  @derive [Poison.Encoder]
+  import PinElixir.Utils.Response
 
   defstruct [:amount, :currency, :description, :email, :ip_address, :card, :success]
 
@@ -31,18 +27,13 @@ defmodule PinElixir.Charge do
   end
 
   defp handle_get_all(%{status_code: 200, body: body}) do
-    Logger.debug fn -> inspect(body) end
-    Poison.decode!(body,
-                   as: %{"response" => [Charge],
-                         pagination: Pagination},
-                   keys: :atoms)
+    decode(body)
     |> rename_response_field
     |> wrap_in_success_tuple
   end
 
   defp handle_get_all(%{status_code: ___, body: body}) do
-    Logger.debug fn -> inspect(body) end
-    {:error, Poison.decode!(body)}
+    body |> to_error_tuple
   end
 
   defp rename_response_field(response) do
@@ -74,13 +65,12 @@ defmodule PinElixir.Charge do
   end
 
   defp handle_get(%{status_code: 200, body: body}) do
-    decoded = Poison.decode!(body, keys: :atoms)
+    decoded = decode(body)
     {:ok, %{charge: decoded.response}}
   end
 
   defp handle_get(%{status_code: 404, body: body}) do
-    decoded = Poison.decode!(body, keys: :atoms)
-    {:error, decoded}
+    body |> to_error_tuple
   end
 
   @doc """
@@ -142,20 +132,13 @@ defmodule PinElixir.Charge do
   end
 
   defp handle_charge_response(%{status_code: 200, body: body}) do
-    Poison.decode!(body,
-                   as: %{"response" => Charge},
-                   keys: :atoms)
+    decode(body)
     |> rename_charge_field
     |> wrap_in_success_tuple
   end
 
-  defp handle_charge_response(%{status_code: 422, body: body}) do
-    #TODO Improve response from this function, maybe parse errors?
-    {:error, Poison.decode!(body, keys: :atoms)}
-  end
-
-  defp handle_charge_response(%{status_code: 400, body: body}) do
-    {:error, Poison.decode!(body, keys: :atoms)}
+  defp handle_charge_response(%{status_code: ___, body: body}) do
+    body |> to_error_tuple
   end
 
   defp rename_charge_field(map) do
@@ -170,7 +153,5 @@ defmodule PinElixir.Charge do
   defp charges_url do
     "https://#{@pin_url}/charges"
   end
-
-
 
 end
