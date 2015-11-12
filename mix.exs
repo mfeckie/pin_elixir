@@ -5,9 +5,12 @@ defmodule PinElixir.Mixfile do
     [app: :pin_elixir,
      version: "0.0.1",
      elixir: "~> 1.1",
+     name: "PinElixir",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps,
+     docs: [extras: ["README.md"], main: "extra-readme"]
+     ]
   end
 
   # Configuration for the OTP application
@@ -33,7 +36,9 @@ defmodule PinElixir.Mixfile do
       {:hypermock, "~> 0.0.2", only: :test},
       {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
       {:mix_test_watch, "~> 0.2", only: :dev},
-      {:poison, "~> 1.5"}
+      {:poison, "~> 1.5"},
+      {:earmark, "~> 0.1", only: :dev},
+      {:ex_doc, "~> 0.10", only: :dev}
     ]
   end
 end

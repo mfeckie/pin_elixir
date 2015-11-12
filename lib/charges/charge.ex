@@ -10,14 +10,17 @@ defmodule PinElixir.Charge do
 
 
   @doc """
-    Retreives all charges
+  Retreives all charges
 
-    Returns a tuple
-    ```
-    {:ok, charge_map}
-    or
-    {:error, error_map}
-    ```
+  Returns a tuple
+
+
+      {:ok, charge_map}
+
+  OR
+
+      {:error, error_map}
+
   """
   def get_all do
     HTTPotion.get(charges_url, with_auth)
@@ -44,7 +47,7 @@ defmodule PinElixir.Charge do
   end
 
   @doc """
-    Given a charge token returns a tuple
+    Given a charge token returns a tuple representing the charge
 
     ```
     {:ok, charge_map}
@@ -72,39 +75,65 @@ defmodule PinElixir.Charge do
   end
 
   @doc """
-    Takes a map representing a customer charge
+  Takes a map representing a customer charge to create a charge
 
-    Can be used with a card, customer_token or card_token key
-    ```
-    %{
-      amount: 500,
-      currency: "AUD", // Optional (default: "AUD")
-      description: "Dragon Eggs",
-      email: "hagrid@hogwarts.wiz",
-      ip_address: "127.0.0.1",
-        card: %{  // Optional
-         number: 4200000000000000,
-         expiry_month: "10",
-         expiry_year: 2016,
-         cvc: 456,
-         name: "Rubius Hagrid",
-         address_line1: "The Game Keepers Cottage",
-         address_city: "Hogwarts",
-         address_postcode: "H0G",
-         address_state: "WA",
-         address_country: "England"
-         }
-      card_token: "abcd123" // Optional
-      customer_token: "cust_123" // Optional
-      capture: false // Optional (default: true)
+  Can be used with a card, customer_token or card_token key
+
+  ```
+  charge = %{
+    amount: 500,
+    currency: "AUD", # Optional (default: "AUD")
+    description: "Dragon Eggs",
+    email: "hagrid@hogwarts.wiz",
+    ip_address: "127.0.0.1",
+    card: %{
+      number: 4200000000000000,
+      expiry_month: "10",
+      expiry_year: 2016,
+      cvc: 456,
+      name: "Rubius Hagrid",
+      address_line1: "The Game Keepers Cottage",
+      address_city: "Hogwarts",
+      address_postcode: "H0G",
+      address_state: "WA",
+      address_country: "England"
     }
-    ```
+  }
 
-    returns a tuple representing the outcome of the charge
+  Charge.create(charge)
+  ```
 
-    `{:ok, charge_response}`
-    OR
-    `{:error, error_message}`
+  ```
+  charge = %{
+    amount: 500,
+    currency: "AUD", # Optional (default: "AUD")
+    description: "Dragon Eggs",
+    email: "hagrid@hogwarts.wiz",
+    ip_address: "127.0.0.1"
+    card_token: "abcd123"
+  }
+  Charge.create(charge)
+  ```
+
+  ```
+  charge = %{
+    amount: 500,
+    currency: "AUD", # Optional (default: "AUD")
+    description: "Dragon Eggs",
+    email: "hagrid@hogwarts.wiz",
+    ip_address: "127.0.0.1"
+    customer_token: "cust_123"
+  }
+  Charge.create(charge)
+  ```
+
+  returns a tuple representing the outcome of the charge
+
+      {:ok, charge_response}
+
+  OR
+
+      {:error, error_message}
   """
 
   def create(%{charge: charge, card: card}) do
@@ -142,6 +171,18 @@ defmodule PinElixir.Charge do
   defp rename_charge_field(map) do
     %{charge: map.response}
   end
+
+  @doc """
+  Given a token, processes a previously authorized payment
+
+  returns a tuple
+
+      {:ok, charge_map}
+
+  OR
+
+      {:error, error_map}
+  """
 
   def capture(token) do
     HTTPotion.put(charges_url <> "/#{token}/capture", with_auth)

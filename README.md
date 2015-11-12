@@ -1,6 +1,6 @@
 # PinElixir
 
-**TODO: Add description**
+**An elixir client for [PinPayments](https://pin.net.au/)**
 
 ## Installation
 
@@ -16,4 +16,12 @@ If [available in Hex](https://hex.pm/docs/publish), the package can be installed
 
         def application do
           [applications: [:pin_elixir]]
-        end
+          end
+
+  3. Add the appropriate credentials and enpoints to your config files such as `dev.exs`
+
+        config :pin_elixir,
+            api_key: System.get_env("MY_API_KEY") || "my_super_secret_key",
+            pin_url: "test-api.pin.net.au/1"
+
+  4. **Profit**

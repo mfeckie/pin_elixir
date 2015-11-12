@@ -1,4 +1,6 @@
 defmodule PinElixir.Utils.RequestOptions do
+  @moduledoc false
+
   @api_key Application.get_env(:pin_elixir, :api_key)
 
   def with_auth do
