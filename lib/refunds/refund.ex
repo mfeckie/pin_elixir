@@ -11,9 +11,7 @@ defmodule PinElixir.Refund do
   @doc """
   Requests a full refund given a charge_token
 
-
   Returns a tuple
-
 
   ```
   {:ok,

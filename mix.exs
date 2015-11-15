@@ -11,27 +11,15 @@ defmodule PinElixir.Mixfile do
      package: package,
      description: description,
      deps: deps,
-     docs: [extras: ["README.md"], main: "extra-readme"]
+     docs: [extras: ["README.md"]]
      ]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
   def application do
     [applications: [:logger, :httpotion],
      mod: {PinElixir, []}]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
   defp deps do
     [
       {:httpotion, "~> 2.1.0"},
@@ -54,7 +42,10 @@ defmodule PinElixir.Mixfile do
     [
       maintainers: ["Martin Feckie"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/mfeckie/pin_elixir"}
+      links: %{
+        "GitHub" => "https://github.com/mfeckie/pin_elixir",
+        "Docs" => "http://hexdocs.pm/pin_elixir/0.0.1/extra-readme.html"
+      }
     ]
   end
 
