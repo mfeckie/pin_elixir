@@ -33,7 +33,7 @@ defmodule PinElixir.Mixfile do
   defp deps do
     [
       {:httpotion, "~> 2.1.0"},
-      {:hypermock, "~> 0.0.2", only: :test},
+      {:hypermock, "~> 0.0.1", github: "mfeckie/hypermock", branch: "feature/extend-macro", only: :test},
       {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
       {:mix_test_watch, "~> 0.2", only: :dev},
       {:poison, "~> 1.5"},

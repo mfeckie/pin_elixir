@@ -5,7 +5,7 @@
   "exvcr": {:hex, :exvcr, "0.5.1"},
   "fs": {:hex, :fs, "0.9.2"},
   "httpotion": {:hex, :httpotion, "2.1.0"},
-  "hypermock": {:hex, :hypermock, "0.0.2"},
+  "hypermock": {:git, "https://github.com/mfeckie/hypermock.git", "4edb66c405e0d9d9b6791fef028465a8e6c722d6", [branch: "feature/extend-macro"]},
   "ibrowse": {:git, "https://github.com/cmullaparthi/ibrowse.git", "ea3305d21f37eced4fac290f64b068e56df7de80", [tag: "v4.1.2"]},
   "jsx": {:hex, :jsx, "2.6.2"},
   "meck": {:hex, :meck, "0.8.3"},
