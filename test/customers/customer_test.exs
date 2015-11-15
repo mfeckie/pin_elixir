@@ -7,7 +7,7 @@ defmodule PinElixirTest.Customer do
 
   test "Create a customer with email and card" do
     request = create_request CustomerFixture.create_with_email_request
-
+    response = response(CustomerFixture.create_success, 201)
     HyperMock.intercept_with request, response do
 
       {:ok, customer_response} = Customer.create("foo@example.com", %{card: card_map })
@@ -19,6 +19,7 @@ defmodule PinElixirTest.Customer do
 
   test "Create a customer with email and card_token" do
     request = create_request CustomerFixture.create_with_card_token_request
+    response = response(CustomerFixture.create_success, 201)
 
     HyperMock.intercept_with request, response do
 
@@ -144,7 +145,7 @@ defmodule PinElixirTest.Customer do
 
   end
 
-  defp response(body \\ CustomerFixture.create_success , status \\ 200) do
+  defp response(body, status \\ 200) do
     %HyperMock.Response{
       body: body,
       status: status

@@ -50,7 +50,7 @@ defmodule PinElixir.Customer do
     |> handle_create_customer_response
   end
 
-  defp handle_create_customer_response(%{status_code: 200, body: body}) do
+  defp handle_create_customer_response(%{status_code: 201, body: body}) do
     decoded = decode(body)
     {:ok, %{customer: decoded.response}}
   end

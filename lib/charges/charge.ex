@@ -159,7 +159,7 @@ defmodule PinElixir.Charge do
     HTTPotion.post(charges_url, with_auth([headers: ["Content-Type": "application/json"], body: json]))
   end
 
-  defp handle_charge_response(%{status_code: 200, body: body}) do
+  defp handle_charge_response(%{status_code: 201, body: body}) do
     decode(body)
     |> rename_charge_field
     |> wrap_in_success_tuple

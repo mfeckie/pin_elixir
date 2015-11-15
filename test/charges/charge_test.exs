@@ -34,7 +34,7 @@ defmodule PinElixirTest.Charge do
   end
 
   test "Create with valid card" do
-    response = response ChargeFixture.create_with_card_response
+    response = response ChargeFixture.create_with_card_response, 201
 
     request = charge_request ChargeFixture.create_with_card_request
 
@@ -88,7 +88,7 @@ defmodule PinElixirTest.Charge do
 
   test "create with customer token" do
     request = charge_request ChargeFixture.create_with_customer_token_request
-    response = response ChargeFixture.create_with_card_response
+    response = response ChargeFixture.create_with_card_response, 201
 
     HyperMock.intercept_with request, response  do
 
@@ -101,9 +101,9 @@ defmodule PinElixirTest.Charge do
   end
 
   test "create with card token" do
-    response = response ChargeFixture.create_with_card_response
+    response = response ChargeFixture.create_with_card_response, 201
 
-    request = charge_request(ChargeFixture.create_with_card_token_request)
+    request = charge_request ChargeFixture.create_with_card_token_request
 
     HyperMock.intercept_with request, response do
 
@@ -114,7 +114,7 @@ defmodule PinElixirTest.Charge do
   end
 
   test "capture previously authorized charge" do
-    response = response ChargeFixture.create_with_card_response
+    response = response ChargeFixture.create_with_card_response, 201
 
     request = %HyperMock.Request{
       method: :put,
