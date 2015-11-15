@@ -1,6 +1,6 @@
 # PinElixir
 
-**An elixir client for [PinPayments](https://pin.net.au/)**
+**An Elixir client for [PinPayments](https://pin.net.au/)**
 
 ## Installation
 
