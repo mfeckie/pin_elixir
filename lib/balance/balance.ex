@@ -2,7 +2,31 @@ defmodule PinElixir.Balance do
   import PinElixir.Utils.RequestOptions
   import PinElixir.Utils.Response
 
+  @moduledoc """
+  Allows querying of pin account balance
+  """
+
   @pin_url Application.get_env(:pin_elixir, :pin_url)
+
+  @doc """
+  Provides a representation of the current pin account balance and pending transactions
+
+  returns a tuple
+
+  ```
+  {:ok,
+    %{balance:
+      %{
+        available: [%{amount: 50000, currency: "AUD"}],
+        pending: [%{amount: 50000, currency: "AUD"}]
+      }
+    }
+  }
+  ```
+
+  OR
+      {:error, error_map}
+  """
 
   def get do
     HTTPotion.get("https://#{@pin_url}/balance", with_auth)

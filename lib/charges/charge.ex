@@ -14,7 +14,27 @@ defmodule PinElixir.Charge do
   Returns a tuple
 
 
-      {:ok, charge_map}
+  ```
+  {:ok,
+   %{charges: [%{amount: 500, amount_refunded: 0, authorisation_expired: false,
+        captured: true,
+        card: %{address_city: "Hogwarts", address_country: "Straya",
+          address_line1: "The Game Keepers Cottage", address_line2: nil,
+          address_postcode: "H0G", address_state: "WA",
+          customer_token: "cus_uie_Z4FA-FWn2hIHfTlHoA",
+          display_number: "XXXX-XXXX-XXXX-0000", expiry_month: 10,
+          expiry_year: 2016, name: "Rubius Hagrid", primary: true, scheme: "visa",
+          token: "card_i-DSgMjhcwRi_dInriNBTw"},
+        created_at: "2015-11-15T08:33:04Z", currency: "AUD",
+        description: "Dragon Eggs", email: "hagrid@hogwarts.wiz",
+        error_message: nil, ip_address: "127.0.0.1", merchant_entitlement: 455,
+        refund_pending: false, settlement_currency: "AUD",
+        status_message: "Success", success: true,
+        token: "ch_SQG0cSfE3AytQKRVAHMFNg", total_fees: 45, transfer: []},
+        %{amount: ...}],
+       pagination: %{count: 42, current: 1, next: 2, pages: 2, per_page: 25,
+         previous: nil}}}
+    ```
 
   OR
 
@@ -49,7 +69,22 @@ defmodule PinElixir.Charge do
     Given a charge token returns a tuple representing the charge
 
     ```
-    {:ok, charge_map}
+    {:ok,
+     %{charge: %{amount: 500, amount_refunded: 0, authorisation_expired: false,
+         captured: true,
+         card: %{address_city: "Hogwarts", address_country: "Straya",
+           address_line1: "The Game Keepers Cottage", address_line2: nil,
+           address_postcode: "H0G", address_state: "WA",
+           customer_token: "cus_uie_Z4FA-FWn2hIHfTlHoA",
+           display_number: "XXXX-XXXX-XXXX-0000", expiry_month: 10,
+           expiry_year: 2016, name: "Rubius Hagrid", primary: true, scheme: "visa",
+           token: "card_i-DSgMjhcwRi_dInriNBTw"},
+         created_at: "2015-11-15T08:33:04Z", currency: "AUD",
+         description: "Dragon Eggs", email: "hagrid@hogwarts.wiz",
+         error_message: nil, ip_address: "127.0.0.1", merchant_entitlement: 455,
+         refund_pending: false, settlement_currency: "AUD",
+         status_message: "Success", success: true,
+         token: "ch_SQG0cSfE3AytQKRVAHMFNg", total_fees: 45, transfer: []}}}
     ```
 
     OR
@@ -130,7 +165,24 @@ defmodule PinElixir.Charge do
 
   returns a tuple representing the outcome of the charge
 
-      {:ok, charge_response}
+  ```
+  {:ok,
+   %{charge: %{amount: 500, amount_refunded: 0, authorisation_expired: false,
+       captured: true,
+       card: %{address_city: "Hogwarts", address_country: "Straya",
+         address_line1: "The Game Keepers Cottage", address_line2: nil,
+         address_postcode: "H0G", address_state: "WA",
+         customer_token: "cus_uie_Z4FA-FWn2hIHfTlHoA",
+         display_number: "XXXX-XXXX-XXXX-0000", expiry_month: 10,
+         expiry_year: 2016, name: "Rubius Hagrid", primary: true, scheme: "visa",
+         token: "card_i-DSgMjhcwRi_dInriNBTw"},
+       created_at: "2015-11-15T08:33:04Z", currency: "AUD",
+       description: "Dragon Eggs", email: "hagrid@hogwarts.wiz",
+       error_message: nil, ip_address: "127.0.0.1", merchant_entitlement: 455,
+       refund_pending: false, settlement_currency: "AUD",
+       status_message: "Success", success: true,
+       token: "ch_SQG0cSfE3AytQKRVAHMFNg", total_fees: 45, transfer: []}}}
+  ```
 
   OR
 
@@ -178,7 +230,24 @@ defmodule PinElixir.Charge do
 
   returns a tuple
 
-      {:ok, charge_map}
+  ```
+  {:ok,
+   %{charge: %{amount: 500, amount_refunded: 0, authorisation_expired: false,
+       captured: true,
+       card: %{address_city: "Hogwarts", address_country: "Straya",
+         address_line1: "The Game Keepers Cottage", address_line2: nil,
+         address_postcode: "H0G", address_state: "WA",
+         customer_token: "cus_uie_Z4FA-FWn2hIHfTlHoA",
+         display_number: "XXXX-XXXX-XXXX-0000", expiry_month: 10,
+         expiry_year: 2016, name: "Rubius Hagrid", primary: true, scheme: "visa",
+         token: "card_i-DSgMjhcwRi_dInriNBTw"},
+       created_at: "2015-11-15T07:51:05Z", currency: "AUD",
+       description: "Dragon Eggs", email: "hagrid@hogwarts.wiz",
+       error_message: nil, ip_address: "127.0.0.1", merchant_entitlement: 455,
+       refund_pending: false, settlement_currency: "AUD",
+       status_message: "Success", success: true,
+       token: "ch_NCoA7oBzrycXEPBTEUWNdQ", total_fees: 45, transfer: []}}}
+  ```
 
   OR
 

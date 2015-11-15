@@ -5,6 +5,8 @@ defmodule PinElixirTest.Customer do
   alias PinElixir.Customer
   alias PinElixirTest.Fixtures.Customer, as: CustomerFixture
 
+  import PinElixirTest.Utils
+
   test "Create a customer with email and card" do
     request = create_request CustomerFixture.create_with_email_request
     response = response(CustomerFixture.create_success, 201)
@@ -50,10 +52,7 @@ defmodule PinElixirTest.Customer do
     response = response '{"response":{}}'
 
     HyperMock.intercept_with request, response do
-
-      {:ok, result} = Customer.delete("abc123")
-
-      assert result == %{}
+      assert :ok == Customer.delete("abc123")
     end
   end
 
@@ -120,21 +119,6 @@ defmodule PinElixirTest.Customer do
     end
   end
 
-  def card_map do
-    %{
-      number: 4200000000000000,
-      expiry_month: "10",
-      expiry_year: 2016,
-      cvc: 456,
-      name: "Rubius Hagrid",
-      address_line1: "The Game Keepers Cottage",
-      address_city: "Hogwarts",
-      address_postcode: "H0G",
-      address_state: "WA",
-      address_country: "Straya"
-    }
-  end
-
   defp create_request(body) do
     %HyperMock.Request{
       body: body,
@@ -143,13 +127,6 @@ defmodule PinElixirTest.Customer do
       uri: "https://test-api.pin.net.au/1/customers"
     }
 
-  end
-
-  defp response(body, status \\ 200) do
-    %HyperMock.Response{
-      body: body,
-      status: status
-    }
   end
 
 end

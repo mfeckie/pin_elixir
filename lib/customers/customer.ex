@@ -5,12 +5,12 @@ defmodule PinElixir.Customer do
   @pin_url Application.get_env :pin_elixir, :pin_url
 
   @moduledoc """
-  Module handling CRUD operations for customers
+  Module handling customer operations
   """
 
 
   @doc """
-  Given an email and map, creates a customer.  The map may contain a card or a card token.
+  Given an email and card_map, creates a customer.  The map may contain a card or a card token.
 
   ```
   Customer.create("minerva@hogwarts.wiz", %{card_token: "abc_a123" })
@@ -35,7 +35,26 @@ defmodule PinElixir.Customer do
 
   Customer.create("rubius@hogwarts.wiz", %{card: card_map})
   ```
+  returns a tuple
 
+  ```
+  {:ok,
+    %{customer: %{card: %{address_city: "Hogwarts", address_country: "Straya",
+      address_line1: "The Game Keepers Cottage", address_line2: nil,
+      address_postcode: "H0G", address_state: "WA",
+      customer_token: "cus_JVk_KByA5JiIsSPWVKt88Q",
+      display_number: "XXXX-XXXX-XXXX-0000", expiry_month: 10,
+      expiry_year: 2016, name: "Rubius Hagrid", primary: true, scheme: "visa",
+      token: "card_EPh4cn4-fEMeZM_osPz1dg"},
+      created_at: "2015-11-15T08:40:50Z", email: "hagrid@hogwarts.wiz",
+      token: "cus_JVk_KByA5JiIsSPWVKt88Q"}}}
+  ```
+
+  OR
+
+  ```
+  {:error, error_map}
+  ```
 
   """
   def create(email, %{card: card}) do
@@ -61,6 +80,18 @@ defmodule PinElixir.Customer do
 
   @doc """
   Given a customer token, deletes the customer
+
+  return a tuple
+
+  ```
+  {:ok}
+  ```
+
+  OR
+
+  ```
+  {:error, error_map}
+  ```
   """
 
   def delete(token) do
@@ -68,9 +99,7 @@ defmodule PinElixir.Customer do
     |> handle_delete
   end
 
-  defp handle_delete(%{status_code: 200}) do
-    {:ok, %{}}
-  end
+  defp handle_delete(%{status_code: 200}), do: :ok
 
   defp handle_delete(%{status_code: 422, body: body}) do
     body |> to_error_tuple
@@ -81,8 +110,21 @@ defmodule PinElixir.Customer do
 
   Returns a tuple
 
-
-      {:ok, customer_map}
+  ```
+  {:ok,
+ %{customers: [%{card: %{address_city: "Hogwarts", address_country: "Straya",
+        address_line1: "The Game Keepers Cottage", address_line2: nil,
+        address_postcode: "H0G", address_state: "WA",
+        customer_token: "cus_JVk_KByA5JiIsSPWVKt88Q",
+        display_number: "XXXX-XXXX-XXXX-0000", expiry_month: 10,
+        expiry_year: 2016, name: "Rubius Hagrid", primary: true, scheme: "visa",
+        token: "card_EPh4cn4-fEMeZM_osPz1dg"},
+      created_at: "2015-11-15T08:40:50Z", email: "hagrid@hogwarts.wiz",
+      token: "cus_JVk_KByA5JiIsSPWVKt88Q"}
+    ],
+   pagination: %{count: 3, current: 1, next: nil, pages: 1, per_page: 25,
+     previous: nil}}}
+   ```
 
   OR
 
@@ -101,8 +143,17 @@ defmodule PinElixir.Customer do
   Returns a tuple
 
 
-      {:ok, customer_map}
-
+  ```
+  {:ok,
+   %{card: %{address_city: "Hogwarts", address_country: "Straya",
+       address_line1: "The Game Keepers Cottage", address_line2: nil,
+       address_postcode: "H0G", address_state: "WA",
+       customer_token: "cus_JVk_KByA5JiIsSPWVKt88Q",
+       display_number: "XXXX-XXXX-XXXX-0000", expiry_month: 10, expiry_year: 2016,
+       name: "Rubius Hagrid", primary: true, scheme: "visa",
+       token: "card_EPh4cn4-fEMeZM_osPz1dg"}, created_at: "2015-11-15T08:40:50Z",
+     email: "hagrid@hogwarts.wiz", token: "cus_JVk_KByA5JiIsSPWVKt88Q"}}
+  ```
   OR
 
       {:error, error_map}

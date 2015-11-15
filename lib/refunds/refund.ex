@@ -15,7 +15,12 @@ defmodule PinElixir.Refund do
   Returns a tuple
 
 
-      {:ok, response_map}
+  ```
+  {:ok,
+   %{amount: 500, charge: "ch_NCoA7oBzrycXEPBTEUWNdQ",
+     created_at: "2015-11-15T08:49:46Z", currency: "AUD", error_message: nil,
+     status_message: "Pending", success: nil, token: "rf_HWV4-cB6UNlh_Tdc5ZaC8g"}}
+  ```
 
   OR
 
@@ -32,8 +37,12 @@ defmodule PinElixir.Refund do
 
   Returns a tuple
 
-
-      {:ok, response_map}
+  ```
+  {:ok,
+   %{amount: 100, charge: "ch_lENRObt9AvXvuUszuq5FBA",
+     created_at: "2015-11-15T08:50:55Z", currency: "AUD", error_message: nil,
+     status_message: "Pending", success: nil, token: "rf_djFwf03PLpp4G7cGEr_5mg"}}
+   ```
 
   OR
 
@@ -64,7 +73,21 @@ defmodule PinElixir.Refund do
   Returns a tuple
 
 
-      {:ok, response_map}
+  ```
+  {:ok,
+   %{pagination: %{count: 9, current: 1, next: nil, pages: 1, per_page: 25,
+       previous: nil},
+     refunds: [%{amount: 100, charge: "ch_lENRObt9AvXvuUszuq5FBA",
+        created_at: "2015-11-15T08:50:55Z", currency: "AUD", error_message: nil,
+        status_message: "Pending", success: nil,
+        token: "rf_djFwf03PLpp4G7cGEr_5mg"},
+      %{amount: 500, charge: "ch_NCoA7oBzrycXEPBTEUWNdQ",
+        created_at: "2015-11-15T08:49:46Z", currency: "AUD", error_message: nil,
+        status_message: "Pending", success: nil,
+        token: "rf_HWV4-cB6UNlh_Tdc5ZaC8g"}]
+      }
+    }
+  ```
 
   OR
 
@@ -81,8 +104,15 @@ defmodule PinElixir.Refund do
 
   Returns a tuple
 
-
-      {:ok, response_map}
+  ```
+  {:ok,
+   %{pagination: %{count: 1, current: 1, next: nil, pages: 1, per_page: 25,
+       previous: nil},
+     refunds: [%{amount: 100, charge: "ch_lENRObt9AvXvuUszuq5FBA",
+        created_at: "2015-11-15T08:50:55Z", currency: "AUD", error_message: nil,
+        status_message: "Pending", success: nil,
+        token: "rf_djFwf03PLpp4G7cGEr_5mg"}]}}
+  ```
 
   OR
 
