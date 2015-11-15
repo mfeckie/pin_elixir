@@ -8,6 +8,8 @@ defmodule PinElixir.Mixfile do
      name: "PinElixir",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     package: package,
+     description: description,
      deps: deps,
      docs: [extras: ["README.md"], main: "extra-readme"]
      ]
@@ -40,6 +42,12 @@ defmodule PinElixir.Mixfile do
       {:earmark, "~> 0.1", only: :dev},
       {:ex_doc, "~> 0.10", only: :dev}
     ]
+  end
+
+  defp description do
+  """
+  A library to wrap the Pin Payments API
+  """
   end
 
   defp package do
