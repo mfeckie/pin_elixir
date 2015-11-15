@@ -1,8 +1,6 @@
 defmodule PinElixir.Utils.Response do
   @moduledoc false
 
-  import Poison, only: [:decode!]
-
   def decode(body) do
     Poison.decode!(body, keys: :atoms)
   end

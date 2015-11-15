@@ -44,7 +44,7 @@ defmodule PinElixir.Mixfile do
       licenses: ["MIT"],
       links: %{
         "GitHub" => "https://github.com/mfeckie/pin_elixir",
-        "Docs" => "http://hexdocs.pm/pin_elixir/0.0.1/extra-readme.html"
+        "Docs" => "http://hexdocs.pm/pin_elixir/0.0.1/extra-api-reference.html"
       }
     ]
   end
