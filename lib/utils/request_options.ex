@@ -10,4 +10,5 @@ defmodule PinElixir.Utils.RequestOptions do
   def with_auth(options) do
     List.flatten(with_auth, options)
   end
+
 end

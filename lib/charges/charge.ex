@@ -3,11 +3,10 @@ defmodule PinElixir.Charge do
   import PinElixir.Utils.Response
 
   @moduledoc """
-    Handles the creation and retrieval of charges
+  Handles the creation and retrieval of charges
   """
 
   @pin_url Application.get_env(:pin_elixir, :pin_url)
-
 
   @doc """
   Retreives all charges
@@ -78,6 +77,8 @@ defmodule PinElixir.Charge do
   Takes a map representing a customer charge to create a charge
 
   Can be used with a card, customer_token or card_token key
+
+  **Note that amount is in the base unit of the currency, e.g $5 would be represented by an amout of 500 (cents)**
 
   ```
   charge = %{

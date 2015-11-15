@@ -21,65 +21,65 @@ defmodule PinElixirTest.Fixtures.Customer do
 
   def get_all_customers do
   """
-{
+  {
   "response": [
-    {
-    "token": "cus_XZg1ULpWaROQCOT5PdwLkQ",
-    "email": "roland@pin.net.au",
-    "created_at": "2012-06-22T06:27:33Z",
-      "card": {
-        "token": "card_nytGw7koRg23EEp9NTmz9w",
-        "display_number": "XXXX-XXXX-XXXX-0000",
-        "expiry_month": 6,
-        "expiry_year": 2020,
-        "name": "Roland Robot",
-        "address_line1": "42 Sevenoaks St",
-        "address_line2": null,
-        "address_city": "Lathlain",
-        "address_postcode": "6454",
-        "address_state": "WA",
-        "address_country": "Australia",
-        "scheme": "master"
-      }
-    }
+  {
+  "token": "cus_XZg1ULpWaROQCOT5PdwLkQ",
+  "email": "roland@pin.net.au",
+  "created_at": "2012-06-22T06:27:33Z",
+  "card": {
+  "token": "card_nytGw7koRg23EEp9NTmz9w",
+  "display_number": "XXXX-XXXX-XXXX-0000",
+  "expiry_month": 6,
+  "expiry_year": 2020,
+  "name": "Roland Robot",
+  "address_line1": "42 Sevenoaks St",
+  "address_line2": null,
+  "address_city": "Lathlain",
+  "address_postcode": "6454",
+  "address_state": "WA",
+  "address_country": "Australia",
+  "scheme": "master"
+  }
+  }
   ],
   "pagination": {
-    "current": 1,
-    "per_page": 25,
-    "count": 1
-    }
+  "current": 1,
+  "per_page": 25,
+  "count": 1
   }
-"""
+  }
+  """
   end
 
   def get_all_customers_error do
-      '{"error":"some error"}'
+    '{"error":"some error"}'
   end
 
   def get_customer do
-    """
-    {
-    "response": {
-      "token": "cus_XZg1ULpWaROQCOT5PdwLkQ",
-      "email": "roland@pin.net.au",
-      "created_at": "2012-06-22T06:27:33Z",
-      "card": {
-        "token": "card_nytGw7koRg23EEp9NTmz9w",
-        "display_number": "XXXX-XXXX-XXXX-0000",
-        "expiry_month": 6,
-        "expiry_year": 2020,
-        "name": "Roland Robot",
-        "address_line1": "42 Sevenoaks St",
-        "address_line2": null,
-        "address_city": "Lathlain",
-        "address_postcode": "6454",
-        "address_state": "WA",
-        "address_country": "Australia",
-        "scheme": "master"
-        }
-      }
-    }
-    """
+  """
+  {
+  "response": {
+  "token": "cus_XZg1ULpWaROQCOT5PdwLkQ",
+  "email": "roland@pin.net.au",
+  "created_at": "2012-06-22T06:27:33Z",
+  "card": {
+  "token": "card_nytGw7koRg23EEp9NTmz9w",
+  "display_number": "XXXX-XXXX-XXXX-0000",
+  "expiry_month": 6,
+  "expiry_year": 2020,
+  "name": "Roland Robot",
+  "address_line1": "42 Sevenoaks St",
+  "address_line2": null,
+  "address_city": "Lathlain",
+  "address_postcode": "6454",
+  "address_state": "WA",
+  "address_country": "Australia",
+  "scheme": "master"
+  }
+  }
+  }
+  """
   end
 
 end

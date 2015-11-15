@@ -2,12 +2,14 @@ defmodule PinElixirTest.Charge do
   use ExUnit.Case
   use HyperMock
 
+  import PinElixirTest.Utils
+
   alias PinElixirTest.Fixtures.Charge, as: ChargeFixture
 
   alias PinElixir.Charge
 
   test "Returns all current charges" do
-    response = response_with_body ChargeFixture.all
+    response = response ChargeFixture.all
 
     HyperMock.intercept_with get_all_request, response  do
 
@@ -19,7 +21,7 @@ defmodule PinElixirTest.Charge do
   end
 
   test "Error response" do
-    response = response_with_body ChargeFixture.get_all_fail, 400
+    response = response ChargeFixture.get_all_fail, 400
 
     HyperMock.intercept_with get_all_request, response do
 
@@ -32,7 +34,7 @@ defmodule PinElixirTest.Charge do
   end
 
   test "Create with valid card" do
-    response = response_with_body ChargeFixture.create_with_card_response
+    response = response ChargeFixture.create_with_card_response
 
     request = charge_request ChargeFixture.create_with_card_request
 
@@ -46,7 +48,7 @@ defmodule PinElixirTest.Charge do
   end
 
   test "Missing parameters" do
-    response = response_with_body ChargeFixture.missing_parameters, 422
+    response = response ChargeFixture.missing_parameters, 422
 
     HyperMock.intercept_with charge_request, response do
 
@@ -59,7 +61,7 @@ defmodule PinElixirTest.Charge do
 
 
   test "Card declined" do
-    response = response_with_body ChargeFixture.card_declined, 400
+    response = response ChargeFixture.card_declined, 400
 
     HyperMock.intercept_with charge_request, response do
 
@@ -72,7 +74,7 @@ defmodule PinElixirTest.Charge do
   end
 
   test "Insufficient funds" do
-    response = response_with_body ChargeFixture.insufficient_funds, 400
+    response = response ChargeFixture.insufficient_funds, 400
 
     HyperMock.intercept_with charge_request, response do
 
@@ -86,7 +88,7 @@ defmodule PinElixirTest.Charge do
 
   test "create with customer token" do
     request = charge_request ChargeFixture.create_with_customer_token_request
-    response = response_with_body ChargeFixture.create_with_card_response
+    response = response ChargeFixture.create_with_card_response
 
     HyperMock.intercept_with request, response  do
 
@@ -99,7 +101,7 @@ defmodule PinElixirTest.Charge do
   end
 
   test "create with card token" do
-    response = response_with_body ChargeFixture.create_with_card_response
+    response = response ChargeFixture.create_with_card_response
 
     request = charge_request(ChargeFixture.create_with_card_token_request)
 
@@ -112,7 +114,7 @@ defmodule PinElixirTest.Charge do
   end
 
   test "capture previously authorized charge" do
-    response = response_with_body ChargeFixture.create_with_card_response
+    response = response ChargeFixture.create_with_card_response
 
     request = %HyperMock.Request{
       method: :put,
@@ -128,7 +130,7 @@ defmodule PinElixirTest.Charge do
   end
 
   test "get a charge" do
-    response = response_with_body ChargeFixture.get
+    response = response ChargeFixture.get
 
     HyperMock.intercept_with get_charge_request, response do
 
@@ -139,7 +141,7 @@ defmodule PinElixirTest.Charge do
   end
 
   test "get a charge error" do
-    response = response_with_body '{"error": "resource_not_found"}', 404
+    response = response '{"error": "resource_not_found"}', 404
 
     HyperMock.intercept_with get_charge_request, response do
 
@@ -206,10 +208,6 @@ defmodule PinElixirTest.Charge do
       method: :get,
       uri: "https://test-api.pin.net.au/1/charges/abcd123"
     }
-  end
-
-  defp response_with_body(body, status \\ 200) do
-    %HyperMock.Response{body: body, status: status }
   end
 
 end
