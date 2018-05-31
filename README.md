@@ -1,3 +1,7 @@
+#DEPRECATED
+
+This library is no longer being actively updated.  All new work is done [here](https://github.com/htdc/pinxs)
+
 [ ![Codeship Status for mfeckie/pin_elixir](https://codeship.com/projects/a859e080-6da7-0133-4eca-12b40b0bc787/status?branch=master)](https://codeship.com/projects/115711)
 
 # PinElixir
