@@ -1,4 +1,4 @@
-#DEPRECATED
+# DEPRECATED
 
 This library is no longer being actively updated.  All new work is done [here](https://github.com/htdc/pinxs)
 
